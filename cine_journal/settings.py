@@ -35,7 +35,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
 raw_hosts = env("ALLOWED_HOSTS", default="")
-ALLOWED_HOSTS = raw_hosts.split(",") if raw_hosts else []
+ALLOWED_HOSTS = raw_hosts.split() if raw_hosts else []
 
 
 # Application definition

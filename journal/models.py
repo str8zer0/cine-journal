@@ -7,11 +7,11 @@ class Review(TimeStampMixin, SlugMixin, models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     rating = models.DecimalField(
-        max_digits=2,
+        max_digits=3,
         decimal_places=1,
         validators=[
             MinValueValidator(1.0),
-            MaxValueValidator(5.0)
+            MaxValueValidator(10.0)
         ]
     )
     movie = models.ForeignKey('movies.Movie', on_delete=models.CASCADE, related_name='reviews')
