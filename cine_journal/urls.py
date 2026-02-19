@@ -17,11 +17,17 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('common.urls')),
+    path('movies/', include('movies.urls')),
+    path('library/', include('library.urls')),
+    path('journal/', include('journal.urls')),
 ]
+
+handler404 = 'common.views.error_404'
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

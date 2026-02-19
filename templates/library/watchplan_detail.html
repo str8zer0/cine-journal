@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}{{ plan.title }} | Watch Plan | Cine Journal{% endblock %}
+{% block content %}
+<div class="d-flex align-items-start justify-content-between mb-4">
+    <div>
+        <h1 class="display-6 fw-bold mb-1">{{ plan.title }}</h1>
+        <p class="text-muted mb-0">{{ plan.planned_date }} • List: <a class="link-primary" href="{% url 'library:movielist_detail' slug=plan.movie_list.slug %}">{{ plan.movie_list.title }}</a></p>
+    </div>
+    <div class="d-flex gap-2">
+        <a href="{% url 'library:watchplan_update' slug=plan.slug %}" class="btn btn-outline-secondary">Edit</a>
+        <a href="{% url 'library:watchplan_delete' slug=plan.slug %}" class="btn btn-danger">Delete</a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <h2 class="h5 fw-bold mb-3">Movies in Plan</h2>
+                <div class="vstack gap-2">
+                    {% for m in plan.movie_list.movies.all %}
+                        <a href="{% url 'movies:detail' slug=m.slug %}" class="d-block p-3 rounded text-decoration-none hover-shadow">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <span class="fw-medium text-dark">{{ m.title }}</span>
+                                <span class="text-muted small">{{ m.release_year }}</span>
+                            </div>
+                        </a>
+                    {% empty %}
+                        <div class="text-muted">No movies in this plan.</div>
+                    {% endfor %}
+                </div>
+                {% if plan.notes %}
+                <div class="mt-4">
+                    <h3 class="h6 fw-bold mb-2">Notes</h3>
+                    <p class="text-body">{{ plan.notes|linebreaks }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <h3 class="h6 fw-bold">Time Summary</h3>
+                <dl class="mt-3 row small">
+                    <dt class="col-7">Planned duration</dt>
+                    <dd class="col-5 text-end">{{ plan.duration_hours }} hours</dd>
+                    <dt class="col-7">Estimated total</dt>
+                    <dd class="col-5 text-end">{{ plan.estimated_total_hours }} hours</dd>
+                </dl>
+                {% if plan.exceeds_available_time %}
+                    <div class="alert alert-warning mt-3 mb-0 py-2 small" role="alert">
+                        Warning: Estimated movie time may exceed your planned duration.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

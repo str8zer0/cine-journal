@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="{% url 'common:home' %}">Cine Journal</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'common:home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'movies:list' %}">Movies</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'journal:review_list' %}">Reviews</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'library:movielist_list' %}">My Lists</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'library:watchplan_list' %}">Watch Plans</a>
+                </li>
+            </ul>
+            <div class="d-flex">
+                <a href="{% url 'movies:create' %}" class="btn btn-primary btn-sm">
+                    + Add Movie
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>

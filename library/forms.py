@@ -42,8 +42,8 @@ class MovieListForm(forms.ModelForm):
                 'class': 'form-control',
                 'rows': 4,
             }),
-            'movies': forms.SelectMultiple(attrs={
-                'class': 'form-select',
+            'movies': forms.CheckboxSelectMultiple(attrs={
+                'class': 'form-check-input',
             }),
         }
 
@@ -63,7 +63,7 @@ class WatchPlanForm(forms.ModelForm):
         required=False,
         label='Choose Movies Directly',
         help_text='Select one or more movies to automatically create a new list.',
-        widget=forms.SelectMultiple(attrs={'class': 'form-select'})
+        widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'})
     )
 
     class Meta:

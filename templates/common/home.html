@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Home | Cine Journal{% endblock %}
+
+{% block content %}
+<div class="card mb-5 border-0 shadow-sm overflow-hidden">
+    <div class="row g-0 align-items-center">
+        <div class="col-lg-6 p-5">
+            <h1 class="display-4 fw-bold mb-3">
+                Keep track of your <span class="text-primary">cinematic journey</span>
+            </h1>
+            <p class="lead text-muted mb-4">
+                Cine Journal helps you organize your movie collection, write reviews, create custom lists, and plan your movie nights efficiently.
+            </p>
+            <div class="d-grid d-sm-flex gap-3">
+                <a href="{% url 'movies:list' %}" class="btn btn-primary btn-lg px-4">
+                    Explore Movies
+                </a>
+                <a href="{% url 'library:watchplan_list' %}" class="btn btn-outline-primary btn-lg px-4">
+                    View Plans
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" class="img-fluid" alt="Cinema" style="height: 500px; object-fit: cover; width: 100%;">
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card h-100 p-4 border-0 shadow-sm">
+            <div class="text-primary mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-film" viewBox="0 0 16 16">
+                    <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm4 0v6h8V1zm8 8H4v6h8zM1 1v2h2V1zm2 3H1v2h2zM1 7v2h2V7zm2 3H1v2h2zM1 13v2h2v-2zM15 1h-2v2h2zm-2 3h2v2h2zm2 3h-2v2h2zm-2 3h2v2h2zm2 3h-2v2h2z"/>
+                </svg>
+            </div>
+            <h3 class="h5 fw-bold mb-2">Movie Library</h3>
+            <p class="text-muted small mb-0">Add movies you've watched or want to watch. Store technical details and posters.</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 p-4 border-0 shadow-sm">
+            <div class="text-primary mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                </svg>
+            </div>
+            <h3 class="h5 fw-bold mb-2">Personal Reviews</h3>
+            <p class="text-muted small mb-0">Rate your favorites and write detailed reviews to remember your thoughts on every film.</p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 p-4 border-0 shadow-sm">
+            <div class="text-primary mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
+                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                </svg>
+            </div>
+            <h3 class="h5 fw-bold mb-2">Watch Planning</h3>
+            <p class="text-muted small mb-0">Create watch plans for upcoming weekends and make sure you have enough time for everything.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

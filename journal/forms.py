@@ -47,7 +47,7 @@ class ReviewForm(forms.ModelForm):
             'rating': forms.NumberInput(attrs={
                 'placeholder': 'e.g. 8.7',
                 'class': 'form-control',
-                'step': '0.5',
+                'step': '0.1',
                 'min': '1.0',
                 'max': '10.0',
             }),

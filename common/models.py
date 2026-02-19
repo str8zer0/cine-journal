@@ -12,7 +12,7 @@ class TimeStampMixin(models.Model):
 
 
 class SlugMixin(models.Model):
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
 
     class Meta:
         abstract = True

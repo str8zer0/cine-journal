@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Reviews | Cine Journal{% endblock %}
+{% block content %}
+<h1 class="h2 fw-bold text-dark mb-4">Latest Reviews</h1>
+{% if reviews %}
+    <div class="vstack gap-3">
+        {% for review in reviews %}
+            <a href="{% url 'journal:review_detail' slug=review.slug %}" class="card card-body text-decoration-none">
+                <div class="d-flex align-items-start justify-content-between">
+                    <div>
+                        <h3 class="h5 fw-semibold text-dark mb-1">{{ review.title }}</h3>
+                        <p class="text-muted small mb-0">For <span class="fw-medium">{{ review.movie.title }}</span></p>
+                    </div>
+                    <div class="text-primary fw-bold">{{ review.rating }}</div>
+                </div>
+                <p class="text-body mt-2 mb-0">{{ review.content }}</p>
+            </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="card p-5 text-center text-muted border-0 shadow-sm">No reviews yet.</div>
+{% endif %}
+{% endblock %}

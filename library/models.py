@@ -20,7 +20,6 @@ class WatchPlan(TimeStampMixin, SlugMixin, models.Model):
     notes = models.TextField(blank=True)
 
     def estimated_total_minutes(self):
-        """Estimate total watch time based on number of movies."""
         movie_count = self.movie_list.movies.count()
         return movie_count * self.AVERAGE_MOVIE_LENGTH
 
@@ -29,7 +28,6 @@ class WatchPlan(TimeStampMixin, SlugMixin, models.Model):
         return round(minutes / 60, 1)
 
     def exceeds_available_time(self):
-        """Return True if estimated movie time exceeds planned duration."""
         available_minutes = self.duration_hours * 60
         return self.estimated_total_minutes() > available_minutes
 

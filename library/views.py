@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from library.forms import MovieListForm, WatchPlanForm
 from library.models import MovieList, WatchPlan
 
 
@@ -27,7 +28,7 @@ class MovieListCreateView(SuccessMessageMixin, CreateView):
     success_message = "Movie list '%(title)s' was created successfully."
 
     def get_success_url(self):
-        return reverse_lazy('movielist_detail', kwargs={'slug': self.object.slug})
+        return reverse_lazy('library:movielist_detail', kwargs={'slug': self.object.slug})
 
 
 class MovieListUpdateView(SuccessMessageMixin, UpdateView):
@@ -39,7 +40,7 @@ class MovieListUpdateView(SuccessMessageMixin, UpdateView):
     success_message = "Movie list '%(title)s' was updated successfully."
 
     def get_success_url(self):
-        return reverse_lazy('movielist_detail', kwargs={'slug': self.object.slug})
+        return reverse_lazy('library:movielist_detail', kwargs={'slug': self.object.slug})
 
 
 class MovieListDeleteView(DeleteView):
@@ -47,15 +48,15 @@ class MovieListDeleteView(DeleteView):
     template_name = 'library/movielist_confirm_delete.html'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
-    success_url = reverse_lazy('movielist_list')
+    success_url = reverse_lazy('library:movielist_list')
 
-    def delete(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         obj = self.get_object()
         messages.success(request, f"Movie list '{obj.title}' was deleted successfully.")
-        return super().delete(request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse_lazy('movielist_detail', kwargs={'slug': self.object.movie_list.slug})
+        return reverse_lazy('library:movielist_list')
 
 
 class WatchPlanListView(ListView):
@@ -92,7 +93,7 @@ class WatchPlanCreateView(SuccessMessageMixin, CreateView):
         elif movies:
             auto_list = MovieList.objects.create(
                 title=form.cleaned_data['title'],
-                description=f"Automatically generated list for {form.cleaned_data['title']}",
+                description=f"Automatically generated list from watch plan",
             )
             auto_list.movies.set(movies)
             form.instance.movie_list = auto_list
@@ -108,7 +109,7 @@ class WatchPlanCreateView(SuccessMessageMixin, CreateView):
         return response
 
     def get_success_url(self):
-        return reverse_lazy('watchplan_detail', kwargs={'slug': self.object.slug})
+        return reverse_lazy('library:watchplan_detail', kwargs={'slug': self.object.slug})
 
 
 class WatchPlanUpdateView(SuccessMessageMixin, UpdateView):
@@ -120,7 +121,7 @@ class WatchPlanUpdateView(SuccessMessageMixin, UpdateView):
     success_message = "Watch plan '%(title)s' was updated successfully."
 
     def get_success_url(self):
-        return reverse_lazy('watchplan_detail', kwargs={'slug': self.object.slug})
+        return reverse_lazy('library:watchplan_detail', kwargs={'slug': self.object.slug})
 
 
 class WatchPlanDeleteView(DeleteView):
@@ -128,11 +129,9 @@ class WatchPlanDeleteView(DeleteView):
     template_name = 'library/watchplan_confirm_delete.html'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
+    success_url = reverse_lazy('library:watchplan_list')
 
-    def delete(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         obj = self.get_object()
         messages.success(request, f"Watch plan '{obj.title}' was deleted successfully.")
-        return super().delete(request, *args, **kwargs)
-
-    def get_success_url(self):
-        return reverse_lazy('watchplan_detail', kwargs={'slug': self.object.watch_plan.slug})
+        return super().post(request, *args, **kwargs)

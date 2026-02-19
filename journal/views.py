@@ -1,3 +1,5 @@
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from journal.forms import ReviewForm
@@ -20,10 +22,11 @@ class ReviewDetailView(DetailView):
     slug_url_kwarg = 'slug'
 
 
-class ReviewCreateView(CreateView):
+class ReviewCreateView(SuccessMessageMixin, CreateView):
     model = Review
     form_class = ReviewForm
     template_name = 'journal/review_form.html'
+    success_message = "Review '%(title)s' was created successfully."
 
     def form_valid(self, form):
         movie_slug = self.kwargs.get('movie_slug')
@@ -31,18 +34,19 @@ class ReviewCreateView(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('movie_detail', kwargs={'slug': self.object.movie.slug})
+        return reverse_lazy('movies:detail', kwargs={'slug': self.object.movie.slug})
 
 
-class ReviewUpdateView(UpdateView):
+class ReviewUpdateView(SuccessMessageMixin, UpdateView):
     model = Review
     form_class = ReviewForm
     template_name = 'journal/review_form.html'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
+    success_message = "Review '%(title)s' was updated successfully."
 
     def get_success_url(self):
-        return reverse_lazy('review_detail', kwargs={'slug': self.object.slug})
+        return reverse_lazy('journal:review_detail', kwargs={'slug': self.object.slug})
 
 
 class ReviewDeleteView(DeleteView):
@@ -51,5 +55,10 @@ class ReviewDeleteView(DeleteView):
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
 
+    def post(self, request, *args, **kwargs):
+        obj = self.get_object()
+        messages.success(request, f"Review '{obj.title}' was deleted successfully.")
+        return super().post(request, *args, **kwargs)
+
     def get_success_url(self):
-        return reverse_lazy('movie_detail', kwargs={'slug': self.object.movie.slug})
+        return reverse_lazy('movies:detail', kwargs={'slug': self.object.movie.slug})

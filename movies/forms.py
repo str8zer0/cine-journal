@@ -70,11 +70,11 @@ class MovieForm(forms.ModelForm):
                 'placeholder': 'https://www.imdb.com/title/tt0468569/',
                 'class': 'form-control',
             }),
-            'genres': forms.SelectMultiple(attrs={
-                'class': 'form-select',
+            'genres': forms.CheckboxSelectMultiple(attrs={
+                'class': 'form-check-input',
             }),
-            'tags': forms.SelectMultiple(attrs={
-                'class': 'form-select',
+            'tags': forms.CheckboxSelectMultiple(attrs={
+                'class': 'form-check-input',
             }),
         }
 

@@ -1,3 +1,5 @@
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from movies.forms import MovieForm
@@ -19,26 +21,26 @@ class MovieDetailView(DetailView):
     slug_url_kwarg = 'slug'
 
 
-class MovieCreateView(CreateView):
+class MovieCreateView(SuccessMessageMixin, CreateView):
     model = Movie
     form_class = MovieForm
-    fields = ['title', 'description', 'release_year', 'cover', 'imdb_link', 'watched', 'genres', 'tags']
     template_name = 'movies/movie_form.html'
+    success_message = "Movie '%(title)s' was created successfully."
 
     def get_success_url(self):
-        return reverse_lazy('movie_detail', kwargs={'slug': self.object.slug})
+        return reverse_lazy('movies:detail', kwargs={'slug': self.object.slug})
 
 
-class MovieUpdateView(UpdateView):
+class MovieUpdateView(SuccessMessageMixin, UpdateView):
     model = Movie
     form_class = MovieForm
-    fields = ['title', 'description', 'release_year', 'cover', 'imdb_link', 'watched', 'genres', 'tags']
     template_name = 'movies/movie_form.html'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
+    success_message = "Movie '%(title)s' was updated successfully."
 
     def get_success_url(self):
-        return reverse_lazy('movie_detail', kwargs={'slug': self.object.slug})
+        return reverse_lazy('movies:detail', kwargs={'slug': self.object.slug})
 
 
 class MovieDeleteView(DeleteView):
@@ -46,4 +48,9 @@ class MovieDeleteView(DeleteView):
     template_name = 'movies/movie_confirm_delete.html'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
-    success_url = reverse_lazy('movie_list')
+    success_url = reverse_lazy('movies:list')
+
+    def post(self, request, *args, **kwargs):
+        obj = self.get_object()
+        messages.success(request, f"Movie '{obj.title}' was deleted successfully.")
+        return super().post(request, *args, **kwargs)

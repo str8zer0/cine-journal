@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}My Lists | Cine Journal{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <h1 class="h2 fw-bold text-dark mb-0">My Movie Lists</h1>
+    <a href="{% url 'library:movielist_create' %}" class="btn btn-primary">Create List</a>
+</div>
+
+{% if lists %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+        {% for l in lists %}
+            <div class="col">
+                <a href="{% url 'library:movielist_detail' slug=l.slug %}" class="card h-100 p-4 text-decoration-none">
+                    <h3 class="h5 fw-semibold text-dark">{{ l.title }}</h3>
+                    <p class="text-muted small mt-1 mb-0">{{ l.movies.count }} movies</p>
+                    {% if l.description %}
+                    <p class="text-body mt-2 mb-0">{{ l.description }}</p>
+                    {% endif %}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="card p-5 text-center text-muted border-0 shadow-sm">No lists yet. Create your first list.</div>
+{% endif %}
+{% endblock %}
