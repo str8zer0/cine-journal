@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Avg
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from movies.forms import MovieForm
@@ -7,7 +8,7 @@ from movies.models import Movie
 
 
 class MovieListView(ListView):
-    model = Movie
+    queryset = Movie.objects.annotate(avg_rating=Avg('reviews__rating'))
     template_name = 'movies/movie_list.html'
     context_object_name = 'movies'
     ordering = ['-created_at']

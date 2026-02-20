@@ -3,6 +3,13 @@ from movies.models import Movie
 
 
 class MovieForm(forms.ModelForm):
+    slug = forms.SlugField(
+        required=False,
+        disabled=True,
+        label='URL Slug',
+        help_text='Auto-generated from title.',
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
 
     class Meta:
         model = Movie
@@ -15,10 +22,12 @@ class MovieForm(forms.ModelForm):
             'watched',
             'genres',
             'tags',
+            'slug',
         ]
 
         labels = {
             'title': 'Movie Title',
+            'slug': '',
             'description': 'Short Description',
             'release_year': 'Release Year',
             'cover': 'Cover Image',

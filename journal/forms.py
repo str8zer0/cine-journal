@@ -6,18 +6,20 @@ class ReviewForm(forms.ModelForm):
 
     class Meta:
         model = Review
-        fields = ['title', 'content', 'rating']
+        fields = ['title', 'content', 'rating', 'movie']
 
         labels = {
             'title': 'Review Title',
             'content': 'Your Thoughts',
-            'rating': 'Rating (1.0 to 10.0)',
+            'rating': 'Rating',
+            'movie': 'Movie',
         }
 
         help_texts = {
             'title': 'Give your review a short descriptive title.',
             'content': 'Write your detailed opinion about the movie.',
             'rating': 'Use a decimal rating between 1.0 and 10.0.',
+            'movie': 'This is the movie you are reviewing.',
         }
 
         error_messages = {
@@ -51,7 +53,17 @@ class ReviewForm(forms.ModelForm):
                 'min': '1.0',
                 'max': '10.0',
             }),
+            'movie': forms.Select(attrs={
+                'class': 'form-control',
+            }),
         }
+
+    def __init__(self, *args, **kwargs):
+        movie = kwargs.pop('movie', None)
+        super().__init__(*args, **kwargs)
+        self.fields['movie'].disabled = True
+        if movie:
+            self.fields['movie'].initial = movie
 
     def clean_rating(self):
         rating = self.cleaned_data['rating']

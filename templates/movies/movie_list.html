@@ -20,7 +20,12 @@
                             {% endif %}
                         </div>
                         <div class="card-body">
-                            <h3 class="h5 card-title text-dark mb-1">{{ movie.title }}</h3>
+                            <div claSS="d-flex justify-content-between align-items-start mb-2">
+                                <h3 class="h5 card-title text-dark mb-1">{{ movie.title }}</h3>
+                                <span class="badge bg-warning text-dark">
+                                    <i class="bi bi-star-fill me-1"></i>{{ movie.avg_rating|default:"N/A"|floatformat:1 }}/10
+                                </span>
+                            </div>
                             <p class="card-text text-muted small mb-2">{{ movie.release_year }}</p>
                             <div>
                                 {% for genre in movie.genres.all %}

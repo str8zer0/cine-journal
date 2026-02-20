@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load movie_tags %}
 
 {% block title %}Home | Cine Journal{% endblock %}
 
@@ -64,6 +65,39 @@
             <h3 class="h5 fw-bold mb-2">Watch Planning</h3>
             <p class="text-muted small mb-0">Create watch plans for upcoming weekends and make sure you have enough time for everything.</p>
         </div>
+    </div>
+</div>
+
+<div class="mb-5 border-top pt-5">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h2 class="fw-bold mb-0">Highest Rated Movies</h2>
+        <a href="{% url 'movies:list' %}" class="btn btn-link text-decoration-none">View all</a>
+    </div>
+    {% top_rated_movies 3 as top_movies %}
+    <div class="row g-4">
+        {% for movie in top_movies %}
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm overflow-hidden">
+                    {% if movie.cover %}
+                        <img src="{{ movie.cover.url }}" class="card-img-top" alt="{{ movie.title }}" style="height: 350px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title fw-bold mb-0">{{ movie.title }}</h5>
+                            <span class="badge bg-warning text-dark">
+                                <i class="bi bi-star-fill me-1"></i>{{ movie.avg_rating|default:"N/A"|floatformat:1 }}/10
+                            </span>
+                        </div>
+                        <p class="card-text text-muted small mb-0">{{ movie.release_year }}</p>
+                        <a href="{% url 'movies:detail' movie.slug %}" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center py-5">
+                <p class="text-muted">No rated movies yet. Start reviewing!</p>
+            </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
