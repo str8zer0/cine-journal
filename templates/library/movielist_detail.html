@@ -9,11 +9,11 @@
         {% endif %}
     </div>
     <div class="d-flex gap-2">
-        <a href="{% url 'library:movielist_update' slug=list.slug %}" class="btn btn-outline-secondary">Edit</a>
+        <a href="{% url 'library:movielist_list' %}" class="btn btn-outline-secondary">Back to Movie Lists</a>
+        <a href="{% url 'library:movielist_update' slug=list.slug %}" class="btn btn-outline-primary">Edit</a>
         <a href="{% url 'library:movielist_delete' slug=list.slug %}" class="btn btn-danger">Delete</a>
     </div>
 </div>
-
 <h2 class="h5 fw-bold mb-3">Movies</h2>
 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
     {% for m in list.movies.all %}
@@ -34,7 +34,6 @@
         <div class="card p-5 text-muted border-0 shadow-sm">No movies in this list yet.</div>
     {% endfor %}
 </div>
-
 <div class="mt-4">
     <a href="{% url 'library:watchplan_create' %}" class="btn btn-primary">Create Watch Plan</a>
 </div>

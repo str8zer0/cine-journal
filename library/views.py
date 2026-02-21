@@ -2,15 +2,28 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from common.mixins import FilteringMixin
 from library.forms import MovieListForm, WatchPlanForm
 from library.models import MovieList, WatchPlan
+from movies.models import Movie
 
 
-class MovieListListView(ListView):
+class MovieListListView(FilteringMixin, ListView):
     queryset = MovieList.objects.prefetch_related('movies')
     template_name = 'library/movielist_list.html'
     context_object_name = 'lists'
     ordering = ['-created_at']
+    paginate_by = 12
+
+    filter_fields = {
+        'title': 'title__icontains',
+        'movie': 'movies__id',
+    }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_movies'] = Movie.objects.all().order_by('title')
+        return context
 
 
 class MovieListDetailView(DetailView):
@@ -59,11 +72,23 @@ class MovieListDeleteView(DeleteView):
         return reverse_lazy('library:movielist_list')
 
 
-class WatchPlanListView(ListView):
+class WatchPlanListView(FilteringMixin, ListView):
     queryset = WatchPlan.objects.select_related('movie_list')
     template_name = 'library/watchplan_list.html'
     context_object_name = 'plans'
     ordering = ['planned_date']
+    paginate_by = 10
+
+    filter_fields = {
+        'title': 'title__icontains',
+        'movie_list': 'movie_list__id',
+        'planned_date': 'planned_date',
+    }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['movie_lists'] = MovieList.objects.all().order_by('title')
+        return context
 
 
 class WatchPlanDetailView(DetailView):

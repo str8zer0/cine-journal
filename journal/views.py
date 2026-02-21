@@ -3,16 +3,29 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from common.mixins import FilteringMixin
 from journal.forms import ReviewForm
 from journal.models import Review
 from movies.models import Movie
 
 
-class ReviewListView(ListView):
+class ReviewListView(FilteringMixin, ListView):
     queryset = Review.objects.select_related('movie')
     template_name = 'journal/review_list.html'
     context_object_name = 'reviews'
     ordering = ['-created_at']
+    paginate_by = 10
+
+    filter_fields = {
+        'title': 'title__icontains',
+        'movie': 'movie__title__icontains',
+        'rating': 'rating__gte'
+    }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['ratings'] = range(1, 11)
+        return context
 
 
 class ReviewDetailView(DetailView):

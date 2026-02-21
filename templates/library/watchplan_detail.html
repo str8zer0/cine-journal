@@ -7,7 +7,8 @@
         <p class="text-muted mb-0">{{ plan.planned_date }} • List: <a class="link-primary" href="{% url 'library:movielist_detail' slug=plan.movie_list.slug %}">{{ plan.movie_list.title }}</a></p>
     </div>
     <div class="d-flex gap-2">
-        <a href="{% url 'library:watchplan_update' slug=plan.slug %}" class="btn btn-outline-secondary">Edit</a>
+        <a href="{% url 'library:watchplan_list' %}" class="btn btn-outline-secondary">Back to Watch Plans</a>
+        <a href="{% url 'library:watchplan_update' slug=plan.slug %}" class="btn btn-outline-primary">Edit</a>
         <a href="{% url 'library:watchplan_delete' slug=plan.slug %}" class="btn btn-danger">Delete</a>
     </div>
 </div>

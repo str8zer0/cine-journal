@@ -1,9 +1,53 @@
 {% extends 'base.html' %}
+{% load query_params %}
 {% block title %}Movies | Cine Journal{% endblock %}
 {% block content %}
 <div class="d-flex align-items-center justify-content-between mb-4">
     <h1 class="h2 fw-bold text-dark mb-0">Movies</h1>
     <a href="{% url 'movies:create' %}" class="btn btn-primary">Add Movie</a>
+</div>
+
+<!-- Filters Section -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3 align-items-end">
+            <!-- Search by Title -->
+            <div class="col-md-4">
+                <label for="title" class="form-label small fw-bold">Title</label>
+                <input type="text" name="title" id="title" class="form-control" placeholder="Search movies..." value="{{ filters.title }}">
+            </div>
+
+            <!-- Filter by Genre -->
+            <div class="col-md-3">
+                <label for="genre" class="form-label small fw-bold">Genre</label>
+                <select name="genre" id="genre" class="form-select">
+                    <option value="">All Genres</option>
+                    {% for genre in all_genres %}
+                        <option value="{{ genre.name }}" {% if filters.genre == genre.name %}selected{% endif %}>{{ genre.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Filter by Tag -->
+            <div class="col-md-3">
+                <label for="tag" class="form-label small fw-bold">Tag</label>
+                <select name="tag" id="tag" class="form-select">
+                    <option value="">All Tags</option>
+                    {% for tag in all_tags %}
+                        <option value="{{ tag.name }}" {% if filters.tag == tag.name %}selected{% endif %}>{{ tag.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="col-md-2 d-flex gap-2">
+                <button type="submit" class="btn btn-primary w-100">Filter</button>
+                <a href="{% url 'movies:list' %}" class="btn btn-outline-secondary" title="Clear Filters">
+                    <i class="bi bi-x-lg"></i>
+                </a>
+            </div>
+        </form>
+    </div>
 </div>
 
 {% if movies %}
@@ -38,6 +82,50 @@
             </div>
         {% endfor %}
     </div>
+
+    <!-- Pagination Section -->
+    {% if is_paginated %}
+        <nav class="mt-5" aria-label="Movies pagination">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link shadow-sm" href="?{% query_params page=page_obj.previous_page_number %}">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link shadow-sm bg-light"><i class="bi bi-chevron-left"></i></span>
+                    </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link shadow-sm">{{ num }}</span>
+                        </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link shadow-sm text-dark" href="?{% query_params page=num %}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link shadow-sm" href="?{% query_params page=page_obj.next_page_number %}">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link shadow-sm bg-light"><i class="bi bi-chevron-right"></i></span>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+
 {% else %}
     <div class="card p-5 text-center text-muted border-0 shadow-sm">
         <p class="mb-0">No movies yet. Start by adding one.</p>

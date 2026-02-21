@@ -3,16 +3,29 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Avg
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from common.mixins import FilteringMixin
 from movies.forms import MovieForm
-from movies.models import Movie
+from movies.models import Movie, Genre, Tag
 
 
-class MovieListView(ListView):
+class MovieListView(FilteringMixin, ListView):
     queryset = Movie.objects.annotate(avg_rating=Avg('reviews__rating'))
     template_name = 'movies/movie_list.html'
     context_object_name = 'movies'
     ordering = ['-created_at']
+    paginate_by = 9
 
+    filter_fields = {
+        'title': 'title__icontains',
+        'genre': 'genres__name__iexact',
+        'tag': 'tags__name__iexact',
+    }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_genres'] = Genre.objects.all().order_by('name')
+        context['all_tags'] = Tag.objects.all().order_by('name')
+        return context
 
 class MovieDetailView(DetailView):
     model = Movie
