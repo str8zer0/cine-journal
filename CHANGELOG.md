@@ -13,6 +13,20 @@ _No unreleased changes yet._
 
 ---
 
+## [1.1.1] – 2026-02-22
+
+### Added
+- Introduced `TODO.md` outlining planned improvements and long-term development ideas.
+
+### Changed
+- Updated `INSTALL.md` with clearer instructions for generating a Django `SECRET_KEY`.
+- Improved documentation formatting and wording for better readability.
+
+### Notes
+- This release contains documentation-only updates with no changes to application logic or database structure.
+
+---
+
 ## [1.1.0] – 2026-02-22
 
 ### Added
@@ -78,5 +92,6 @@ _No unreleased changes yet._
 ---
 
 [Unreleased]: https://github.com/str8zer0/cine-journal/compare/v1.1.0...HEAD
+[1.1.1]: https://github.com/str8zer0/cine-journal/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/str8zer0/cine-journal/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/str8zer0/cine-journal/releases/tag/v1.0.0

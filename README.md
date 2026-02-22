@@ -32,4 +32,5 @@ The project is divided into four main Django apps, each with a specific responsi
 
 - [**Installation Guide (INSTALL.md)**](INSTALL.md): Step-by-step instructions to set up the project locally.
 - [**Changelog (CHANGELOG.md)**](CHANGELOG.md): History of changes and versions.
+- [**Todo List (TODO.md)**](TODO.md): List of features and improvements to be implemented.
 - [**License (LICENSE)**](LICENSE): Copyright and licensing information.

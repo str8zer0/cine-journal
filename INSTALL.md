@@ -15,8 +15,8 @@ Before you begin, ensure you have the following installed on your machine:
 Clone the project to your local machine:
 
 ```bash
-git clone https://github.com/your-username/cine_journal.git
-cd cine_journal
+git clone https://github.com/str8zer0/cine-journal.git
+cd cine-journal
 ```
 
 ## 2. Environment Configuration
@@ -31,7 +31,7 @@ DEBUG=True
 SECRET_KEY=your-super-secret-key-change-me
 ALLOWED_HOSTS=127.0.0.1 localhost
 
-DATABASE_NAME=cine_journal
+DATABASE_NAME=cine_journal_db
 DATABASE_USER=postgres
 DATABASE_PASSWORD=your-password
 DATABASE_HOST=localhost
@@ -61,9 +61,25 @@ pip install -r requirements.txt
 ```
 *(Note: If `requirements.txt` is not present, use `uv export --format requirements-txt > requirements.txt` if you have `uv` installed, or just use `uv sync`)*
 
+## 4. Generate a Secret Key
+1. Make sure all dependencies are installed as described in the previous step.
+2. Open a Django shell:
+
+```bash
+uv run manage.py shell
+```
+3. Inside the shell, run the following to generate a secret key:
+
+```python
+from django.core.management.utils import get_random_secret_key
+print(get_random_secret_key())
+```
+
+4. Copy the generated key and paste it into your `.env` file as the value for `SECRET_KEY`.
+
 ## 4. Database Setup
 
-1.  Create the database in PostgreSQL as specified in your `.env` (e.g., `cine_journal`).
+1.  Create the database in PostgreSQL as specified in your `.env` (e.g., `cine_journal_db`).
 2.  Apply migrations:
 
 ```bash
@@ -94,6 +110,7 @@ Start the Django development server:
 uv run manage.py runserver
 ```
 
+> **Note:** The server will run on port 8000 by default.
 The application will be accessible at [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
 
 ## 7. Verification
