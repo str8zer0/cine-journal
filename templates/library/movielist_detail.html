@@ -1,12 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}{{ list.title }} | Cine Journal{% endblock %}
 {% block content %}
-<div class="d-flex align-items-start justify-content-between mb-4">
+<div class="d-flex align-items-start justify-content-between mb-1">
     <div>
         <h1 class="display-6 fw-bold mb-1">{{ list.title }}</h1>
-        {% if list.description %}
-        <p class="text-body mb-0">{{ list.description }}</p>
-        {% endif %}
     </div>
     <div class="d-flex gap-2">
         <a href="{% url 'library:movielist_list' %}" class="btn btn-outline-secondary">Back to Movie Lists</a>
@@ -14,16 +11,17 @@
         <a href="{% url 'library:movielist_delete' slug=list.slug %}" class="btn btn-danger">Delete</a>
     </div>
 </div>
+<div>
+    {% if list.description %}
+        <p class="text-body mb-4">{{ list.description }}</p>
+    {% endif %}
+</div>
 <h2 class="h5 fw-bold mb-3">Movies</h2>
 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
     {% for m in list.movies.all %}
         <div class="col">
             <a href="{% url 'movies:detail' slug=m.slug %}" class="card h-100 overflow-hidden text-decoration-none">
-                {% if m.cover %}
-                    <img src="{{ m.cover.url }}" alt="{{ m.title }}" class="w-100" style="height: 200px; object-fit: cover;">
-                {% else %}
-                    <div class="w-100 d-flex align-items-center justify-content-center text-muted" style="height: 200px;">No cover</div>
-                {% endif %}
+                <img src="{{ m.cover_or_placeholder }}" alt="{{ m.title }}" class="w-100" style="height: 200px; object-fit: cover;">
                 <div class="card-body">
                     <h3 class="h6 fw-semibold mb-1">{{ m.title }}</h3>
                     <p class="text-muted small mb-0">{{ m.release_year }}</p>

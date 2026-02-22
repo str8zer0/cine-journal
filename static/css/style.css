@@ -1,0 +1,19 @@
+/* Background image for the whole site */
+body {
+    background-image: url("/static/images/site-cover.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* Main content height */
+.main-content {
+    min-height: calc(100vh - 160px);
+}
+
+/* Placeholder styling */
+::placeholder {
+    font-style: italic !important;
+    opacity: 0.3 !important;
+}

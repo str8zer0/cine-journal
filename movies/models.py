@@ -1,5 +1,7 @@
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.templatetags.static import static
+from django.utils.functional import cached_property
 from common.models import TimeStampMixin, SlugMixin
 
 
@@ -25,6 +27,12 @@ class Movie(TimeStampMixin, SlugMixin, models.Model):
     watched = models.BooleanField(default=False)
     genres = models.ManyToManyField('Genre', related_name='movies_by_genre')
     tags = models.ManyToManyField('Tag', related_name='movies_by_tag', blank=True)
+
+    @cached_property
+    def cover_or_placeholder(self):
+        if self.cover:
+            return self.cover.url
+        return static('images/no-image-placeholder.svg')
 
     def __str__(self):
         return self.title

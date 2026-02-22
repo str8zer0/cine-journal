@@ -57,17 +57,15 @@
                 <div class="card h-100 shadow-sm hover-shadow transition overflow-hidden">
                     <a href="{% url 'movies:detail' slug=movie.slug %}" class="text-decoration-none">
                         <div class="bg-light" style="height: 350px;">
-                            {% if movie.cover %}
-                                <img src="{{ movie.cover.url }}" alt="{{ movie.title }}" class="w-100 h-100 object-fit-cover">
-                            {% else %}
-                                <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted">No cover</div>
-                            {% endif %}
+                            <img src="{{ movie.cover_or_placeholder }}" alt="{{ movie.title }}" class="w-100 h-100 object-fit-cover">
                         </div>
                         <div class="card-body">
                             <div claSS="d-flex justify-content-between align-items-start mb-2">
                                 <h3 class="h5 card-title text-dark mb-1">{{ movie.title }}</h3>
                                 <span class="badge bg-warning text-dark">
-                                    <i class="bi bi-star-fill me-1"></i>{{ movie.avg_rating|default:"N/A"|floatformat:1 }}/10
+                                    {% if movie.avg_rating %}
+                                        <i class="bi bi-star-fill me-1"></i>{{ movie.avg_rating|floatformat:1 }}/10
+                                    {% else %}Not rated{% endif %}
                                 </span>
                             </div>
                             <p class="card-text text-muted small mb-2">{{ movie.release_year }}</p>

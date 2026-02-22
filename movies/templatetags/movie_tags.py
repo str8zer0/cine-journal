@@ -10,5 +10,6 @@ def top_rated_movies(limit=3):
     return (
         Movie.objects
         .annotate(avg_rating=Avg('reviews__rating'))
+        .filter(avg_rating__isnull=False)
         .order_by('-avg_rating')[:limit]
     )
