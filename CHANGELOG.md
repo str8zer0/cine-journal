@@ -76,3 +76,7 @@ _No unreleased changes yet._
 - Initial models for movies, genres, tags, reviews, lists, and watch plans.
 
 ---
+
+[Unreleased]: https://github.com/str8zer0/cine-journal/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/str8zer0/cine-journal/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/str8zer0/cine-journal/releases/tag/v1.0.0
