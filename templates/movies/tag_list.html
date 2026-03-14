@@ -1,0 +1,13 @@
+<h2>Tags</h2>
+
+<a href="{% url 'movies:tag_create' %}">+ Add Tag</a>
+
+<ul>
+    {% for tag in object_list %}
+        <li>
+            {{ tag.name }}
+            <a href="{% url 'movies:tag_update' tag.pk %}">Edit</a>
+            <a href="{% url 'movies:tag_delete' tag.pk %}">Delete</a>
+        </li>
+    {% endfor %}
+</ul>

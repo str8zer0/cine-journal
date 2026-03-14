@@ -1,5 +1,6 @@
+import re
 from django import forms
-from movies.models import Movie
+from movies.models import Movie, Genre, Tag
 
 
 class MovieForm(forms.ModelForm):
@@ -39,12 +40,12 @@ class MovieForm(forms.ModelForm):
 
         help_texts = {
             'title': 'Enter the official title of the movie.',
-            'description': 'Write a short summary or leave it empty.',
+            'description': 'Write a short summary or leave it empty. (optional)',
             'release_year': 'Year the movie was or will be released (must be after 1880).',
-            'cover': 'Upload a poster or cover image.',
-            'imdb_link': 'Paste the full IMDb URL (e.g., https://www.imdb.com/title/tt0468569/).',
+            'cover': 'Upload a poster or cover image. (optional)',
+            'imdb_link': 'Paste the full IMDb URL. (optional).',
             'genres': 'Select one or more genres.',
-            'tags': 'Optional keywords to help categorize the movie.',
+            'tags': 'Select one or more tags. (optional)',
         }
 
         error_messages = {
@@ -87,8 +88,40 @@ class MovieForm(forms.ModelForm):
             }),
         }
 
+    def clean_imdb_link(self):
+        url = self.cleaned_data.get('imdb_link')
+
+        if not url:
+            return url  # field is optional
+
+        pattern = r"^https?://(www\.|m\.)?imdb\.com/title/tt\d+"
+
+        if not re.match(pattern, url):
+            raise forms.ValidationError("Please enter a valid IMDb movie URL or leave the field blank.")
+
+        return url
+
+
     def clean_release_year(self):
         year = self.cleaned_data['release_year']
         if year < 1880:
-            raise forms.ValidationError("Movies did not existed before 1880.")
+            raise forms.ValidationError("Movies did not exist before 1880.")
         return year
+
+
+class GenreForm(forms.ModelForm):
+    class Meta:
+        model = Genre
+        fields = ['name']
+        labels = {'name': 'Genre Name'}
+        help_texts = {'name': 'A stylistic or thematic movie category'}
+        widgets = {'name': forms.TextInput(attrs={'class': 'form-control'})}
+
+
+class TagForm(forms.ModelForm):
+    class Meta:
+        model = Tag
+        fields = ['name']
+        labels = {'name': 'Tag Name'}
+        help_texts = {'name': 'A keyword to help categorize the movie.'}
+        widgets = {'name': forms.TextInput(attrs={'class': 'form-control'})}

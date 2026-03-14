@@ -13,6 +13,24 @@ _No unreleased changes yet._
 
 ---
 
+## [1.2.0] – 2026-03-14
+
+### Added
+- Full CRUD support for Genres and Tags.
+- Dedicated Categories page to manage Genres and Tags from a unified interface.
+- “Categories” link in the main navigation for quick access.
+- Ability to add new Genres and Tags directly from the movie creation form.
+- IMDb URL validation in `MovieForm` with clear error messaging.
+
+### Changed
+- Improved form widgets, labels, and help texts for Genres, Tags, and Movies for a more consistent UX.
+- Refined modal-based workflows for simple category management actions.
+
+### Fixed
+- Ensured consistent display of help text and styling in category management UI.
+
+---
+
 ## [1.1.1] – 2026-02-22
 
 ### Added
@@ -91,7 +109,8 @@ _No unreleased changes yet._
 
 ---
 
-[Unreleased]: https://github.com/str8zer0/cine-journal/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/str8zer0/cine-journal/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/str8zer0/cine-journal/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/str8zer0/cine-journal/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/str8zer0/cine-journal/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/str8zer0/cine-journal/releases/tag/v1.0.0

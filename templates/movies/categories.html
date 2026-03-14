@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+
+{% block title %}Categories | Cine Journal{% endblock %}
+
+{% block content %}
+<h1 class="h3 fw-bold text-dark mb-4">Manage Genres & Tags</h1>
+
+<div class="row">
+
+    <!-- GENRES -->
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Genres</h5>
+                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addGenreModal">
+                    + Add Genre
+                </button>
+            </div>
+
+            <div class="card-body">
+                <table class="table table-hover">
+                    <tbody>
+                        {% for genre in genres %}
+                        <tr>
+                            <td>{{ genre.name }}</td>
+                            <td class="text-end">
+
+                                <!-- EDIT BUTTON -->
+                                <button class="btn btn-sm btn-warning"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editGenreModal{{ genre.pk }}">
+                                    Edit
+                                </button>
+
+                                <!-- DELETE BUTTON -->
+                                <button class="btn btn-sm btn-danger"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteGenreModal{{ genre.pk }}">
+                                    Delete
+                                </button>
+
+                            </td>
+                        </tr>
+
+                        <!-- EDIT GENRE MODAL -->
+                        <div class="modal fade" id="editGenreModal{{ genre.pk }}" tabindex="-1">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <form method="post" action="{% url 'movies:genre_update' genre.pk %}">
+                                {% csrf_token %}
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Edit Genre</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <label class="form-label">Genre Name:</label>
+                                  <input type="text" name="name" class="form-control" value="{{ genre.name }}">
+                                  <div class="form-text">A stylistic or thematic movie category</div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- DELETE GENRE MODAL -->
+                        <div class="modal fade" id="deleteGenreModal{{ genre.pk }}" tabindex="-1">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <form method="post" action="{% url 'movies:genre_delete' genre.pk %}">
+                                {% csrf_token %}
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Delete Genre</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                  Are you sure you want to delete "<strong>{{ genre.name }}</strong>"?
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="submit" class="btn btn-danger">Delete</button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+
+                        {% empty %}
+                        <tr><td colspan="2" class="text-muted">No genres yet.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAGS -->
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Tags</h5>
+                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addTagModal">
+                    + Add Tag
+                </button>
+            </div>
+
+            <div class="card-body">
+                <table class="table table-hover">
+                    <tbody>
+                        {% for tag in tags %}
+                        <tr>
+                            <td>{{ tag.name }}</td>
+                            <td class="text-end">
+
+                                <!-- EDIT BUTTON -->
+                                <button class="btn btn-sm btn-warning"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editTagModal{{ tag.pk }}">
+                                    Edit
+                                </button>
+
+                                <!-- DELETE BUTTON -->
+                                <button class="btn btn-sm btn-danger"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteTagModal{{ tag.pk }}">
+                                    Delete
+                                </button>
+
+                            </td>
+                        </tr>
+
+                        <!-- EDIT TAG MODAL -->
+                        <div class="modal fade" id="editTagModal{{ tag.pk }}" tabindex="-1">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <form method="post" action="{% url 'movies:tag_update' tag.pk %}">
+                                {% csrf_token %}
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Edit Tag</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <label class="form-label">Tag Name:</label>
+                                  <input type="text" name="name" class="form-control" value="{{ tag.name }}">
+                                  <div class="form-text">A keyword to help categorize the movie.</div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="submit" class="btn btn-primary">Save</button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- DELETE TAG MODAL -->
+                        <div class="modal fade" id="deleteTagModal{{ tag.pk }}" tabindex="-1">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <form method="post" action="{% url 'movies:tag_delete' tag.pk %}">
+                                {% csrf_token %}
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Delete Tag</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                  Are you sure you want to delete "<strong>{{ tag.name }}</strong>"?
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="submit" class="btn btn-danger">Delete</button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+
+                        {% empty %}
+                        <tr><td colspan="2" class="text-muted">No tags yet.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ADD GENRE MODAL -->
+<div class="modal fade" id="addGenreModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="post" action="{% url 'movies:genre_create' %}?next={% url 'movies:categories' %}">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title">Add Genre</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          {{ genre_form.as_p }}
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ADD TAG MODAL -->
+<div class="modal fade" id="addTagModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="post" action="{% url 'movies:tag_create' %}?next={% url 'movies:categories' %}">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title">Add Tag</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          {{ tag_form.as_p }}
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

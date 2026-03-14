@@ -1,0 +1,13 @@
+<h2>Genres</h2>
+
+<a href="{% url 'movies:genre_create' %}">+ Add Genre</a>
+
+<ul>
+    {% for genre in object_list %}
+        <li>
+            {{ genre.name }}
+            <a href="{% url 'movies:genre_update' genre.pk %}">Edit</a>
+            <a href="{% url 'movies:genre_delete' genre.pk %}">Delete</a>
+        </li>
+    {% endfor %}
+</ul>
